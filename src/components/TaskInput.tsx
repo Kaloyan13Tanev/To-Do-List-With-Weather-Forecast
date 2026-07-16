@@ -1,15 +1,11 @@
 function TaskInput() {
   return (
-    <div className="mb-3">
-      <label htmlFor="exampleFormControlTextarea1" className="form-label">
-        Example textarea
+    <>
+      <label htmlFor="task-input" className="form-label">
+        Write your task here:
       </label>
-      <textarea
-        className="form-control"
-        id="exampleFormControlTextarea1"
-        rows={3}
-      ></textarea>
-    </div>
+      <textarea className="form-control" id="task-input" rows={3}></textarea>
+    </>
   );
 }
 
