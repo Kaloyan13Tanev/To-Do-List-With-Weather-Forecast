@@ -1,22 +1,48 @@
 import { useState } from "react";
+import type { Task } from "../types";
 
-function TaskInput() {
+export function TaskInput({
+  setTasks,
+}: {
+  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
+}) {
   const [taskText, setTaskText] = useState("");
 
+  function addTask(task: Task) {
+    setTasks((prevTasks) => [...prevTasks, task]);
+  }
+
+  function handleTaskSubmition(task: Task) {
+    if (task.text.trim() != "") {
+      addTask(task);
+      setTaskText("");
+    }
+  }
+
   return (
-    <div className="form-floating">
+    <>
       <textarea
         className="form-control"
-        placeholder="Write your task here..."
+        placeholder="Write your task here"
         id="floatingTextarea2"
         style={{ height: "100px" }}
         value={taskText}
         onChange={(e) => setTaskText(e.target.value)}
       ></textarea>
-      <button className="btn btn-primary mt-2">Add Task</button>
-      <label htmlFor="floatingTextarea2">Comments</label>
-    </div>
+      <button
+        className="btn btn-primary mt-2"
+        onClick={() => {
+          // call HTTP post method
+          handleTaskSubmition({
+            id: crypto.randomUUID(),
+            text: taskText,
+            done: false,
+          });
+        }}
+      >
+        Add Task
+      </button>
+      <label htmlFor="floatingTextarea2"></label>
+    </>
   );
 }
-
-export default TaskInput;

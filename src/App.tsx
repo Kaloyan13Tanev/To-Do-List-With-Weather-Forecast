@@ -1,14 +1,14 @@
-import "./App.css";
 import { useState } from "react";
-import TaskInput from "./components/TaskInput";
 import type { Task } from "./types";
+import { TaskInput } from "./components/TaskInput";
+import "./App.css";
 
 function App() {
-  const [taskList, setTaskList] = useState<Task[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
 
   return (
     <main>
-      <TaskInput />
+      <TaskInput setTasks={setTasks} />
     </main>
   );
 }
