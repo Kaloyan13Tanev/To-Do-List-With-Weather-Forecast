@@ -1,0 +1,42 @@
+/* Better task row styling */
+.list-group-item {
+  border-radius: 0.75rem;
+  margin-bottom: 0.75rem;
+  padding: 0.9rem 1rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.task-text {
+  min-width: 0;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.list-group-item .btn {
+  min-width: 3rem;
+}
+
+/*. Scratched style draws a line across the entire list item when a task is done */
+.task-content.scratched {
+  position: relative;
+  color: #6c757d;
+}
+
+.task-content.scratched::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  background: rgba(108, 117, 125, 0.75);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.task-content.scratched .task-text,
+.task-content.scratched input[type="checkbox"],
+.task-content.scratched input[type="text"] {
+  position: relative;
+  z-index: 1;
+}
