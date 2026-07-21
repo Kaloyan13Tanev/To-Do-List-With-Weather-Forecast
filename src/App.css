@@ -1,42 +1,164 @@
-/* Better task row styling */
 .list-group-item {
-  border-radius: 0.75rem;
-  margin-bottom: 0.75rem;
-  padding: 0.9rem 1rem;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    background-color: #fff;
+    border-radius: 0.75rem;
+    margin-bottom: 0.75rem;
+    padding: 0.9rem 1rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
 }
 
 .task-text {
-  min-width: 0;
-  white-space: normal;
-  word-break: break-word;
+    min-width: 0;
+    white-space: normal;
+    word-break: break-word;
 }
 
 .list-group-item .btn {
-  min-width: 3rem;
+    min-width: 3rem;
 }
 
-/*. Scratched style draws a line across the entire list item when a task is done */
+.list-group-item .btn-outline-primary,
+.list-group-item .btn-outline-danger,
+.list-group-item .btn-outline-secondary {
+    border-width: 1px;
+    border-radius: 0.35rem;
+    padding: 0.4rem 0.65rem;
+    min-width: 2.6rem;
+    transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+}
+
+.list-group-item .btn-outline-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    color: #fff;
+}
+
+.list-group-item .btn-outline-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: #fff;
+}
+
+.list-group-item .btn-outline-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: #fff;
+    min-width: 2rem;
+    padding-left: 0.3rem;
+    padding-right: 0.3rem;
+}
+
+.list-group-item .btn-outline-primary:hover,
+.list-group-item .btn-outline-danger:hover,
+.list-group-item .btn-outline-secondary:hover {
+    filter: brightness(0.9);
+}
+
+.task-list-container {
+    background: #f8fafc;
+    border-radius: 1rem;
+    padding: 1rem;
+    box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.06);
+}
+
+.task-list-items {
+    display: grid;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+}
+
 .task-content.scratched {
-  position: relative;
-  color: #6c757d;
+    position: relative;
+    color: #6c757d;
 }
 
 .task-content.scratched::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  height: 2px;
-  background: rgba(108, 117, 125, 0.75);
-  transform: translateY(-50%);
-  pointer-events: none;
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 2px;
+    background: rgba(108, 117, 125, 0.75);
+    transform: translateY(-50%);
+    pointer-events: none;
 }
 
 .task-content.scratched .task-text,
 .task-content.scratched input[type="checkbox"],
 .task-content.scratched input[type="text"] {
-  position: relative;
-  z-index: 1;
+    position: relative;
+    z-index: 1;
+}
+
+html,
+body,
+#root {
+    height: 100%;
+    margin: 0;
+}
+
+.app-shell {
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+}
+
+.fill {
+    height: 100%;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.fill-row {
+    flex-grow: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.scroll-area {
+    flex-grow: 1;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+@media (max-width: 767.98px) {
+    .app-shell {
+        height: auto;
+    }
+
+    .fill-row {
+        display: flex;
+        flex-direction: column;
+        overflow: visible;
+    }
+
+    .fill-row>.col-md-3 {
+        flex: 0 0 auto;
+    }
+
+    .fill {
+        height: auto;
+        flex: 0 0 auto;
+    }
+
+    .task-list-container {
+        height: 60vh;
+    }
+
+    .list-group-item>.d-flex.gap-2 {
+        gap: 0.25rem !important;
+    }
+
+    .list-group-item .btn {
+        min-width: 2.2rem;
+        padding: 0.35rem 0.45rem;
+    }
+
+    .list-group-item .btn-outline-secondary {
+        min-width: 1.8rem;
+        padding-left: 0.25rem;
+        padding-right: 0.25rem;
+    }
 }

@@ -60,12 +60,15 @@ export function WeatherForecast() {
   return (
     <div className="card">
       <div className="card-body">
-        <h5 className="card-title">Sofia</h5>
+        <div className="text-center">
+          <h5 className="card-title">Sofia</h5>
 
-        <div className="display-4">{Math.round(weather.temperature)}°</div>
+          <div className="display-4">{Math.round(weather.temperature)}°</div>
 
-        <div className="text-muted">
-          H: {Math.round(weather.maxTemp)}° · L: {Math.round(weather.minTemp)}°
+          <div className="text-muted">
+            H: {Math.round(weather.maxTemp)}° · L: {Math.round(weather.minTemp)}
+            °
+          </div>
         </div>
 
         <hr />

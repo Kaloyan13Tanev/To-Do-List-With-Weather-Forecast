@@ -9,7 +9,7 @@ export function TaskInput({
   const [taskText, setTaskText] = useState("");
 
   function addTask(task: Task) {
-    setTasks((prevTasks) => [...prevTasks, task]);
+    setTasks((prevTasks) => [task, ...prevTasks]);
   }
 
   function handleTaskSubmition(task: Task) {
@@ -30,7 +30,7 @@ export function TaskInput({
         onChange={(e) => setTaskText(e.target.value)}
       ></textarea>
       <button
-        className="btn btn-primary mt-2"
+        className="btn btn-success w-100"
         onClick={() => {
           // call HTTP post method
           handleTaskSubmition({

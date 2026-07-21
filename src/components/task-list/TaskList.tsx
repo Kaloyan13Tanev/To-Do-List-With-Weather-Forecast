@@ -9,15 +9,17 @@ export function TaskList({
   setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
 }) {
   return (
-    <ul className="list-unstyled">
-      {tasks.map((task) => (
-        <TaskListElement
-          key={task.id}
-          task={task}
-          tasks={tasks}
-          setTasks={setTasks}
-        />
-      ))}
-    </ul>
+    <div className="task-list-container fill">
+      <ul className="list-unstyled scroll-area">
+        {tasks.map((task) => (
+          <TaskListElement
+            key={task.id}
+            task={task}
+            tasks={tasks}
+            setTasks={setTasks}
+          />
+        ))}
+      </ul>
+    </div>
   );
 }

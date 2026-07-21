@@ -53,16 +53,17 @@ export function TaskNormalView({
         className={`task-content d-flex align-items-center gap-3 flex-grow-1 ${
           task.done ? "scratched" : ""
         }`}
+        style={{ minWidth: 0 }}
       >
         <input
           type="checkbox"
           checked={task.done}
           onChange={changeTaskStatus}
         />
-        <span className="task-text flex-grow-1">{task.text}</span>
+        <span className="task-text text-truncate">{task.text}</span>
       </div>
 
-      <div className="d-flex align-items-center gap-2 flex-wrap">
+      <div className="d-flex align-items-center gap-2 flex-shrink-0">
         <button
           className="btn btn-sm btn-outline-secondary"
           onClick={() => moveTaskUp(task)}
