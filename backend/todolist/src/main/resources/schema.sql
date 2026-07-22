@@ -1,0 +1,1 @@
+create sequence if not exists task_position_seq start with 1 increment by 1;
