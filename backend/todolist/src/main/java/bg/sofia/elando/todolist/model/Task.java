@@ -1,3 +1,5 @@
+package bg.sofia.elando.todolist.model;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
