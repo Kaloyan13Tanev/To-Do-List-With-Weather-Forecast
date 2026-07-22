@@ -7,6 +7,7 @@ import bg.sofia.elando.todolist.mapper.TaskMapper;
 import bg.sofia.elando.todolist.model.Task;
 import bg.sofia.elando.todolist.repository.TaskRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
 public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository repo;
