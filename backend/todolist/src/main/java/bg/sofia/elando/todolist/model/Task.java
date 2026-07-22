@@ -14,6 +14,7 @@ import java.util.UUID;
 public class Task {
 
     private UUID id;
+    private Long position;
     private String text;
     private boolean done;
 
