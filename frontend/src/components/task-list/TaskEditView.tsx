@@ -1,3 +1,4 @@
+import axios from "axios";
 import type { Task } from "../../types";
 
 export function TaskEditView({
@@ -13,9 +14,14 @@ export function TaskEditView({
   setEditText: React.Dispatch<React.SetStateAction<string>>;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  function saveEdit() {
+  async function saveEdit() {
+    const response = await axios.patch<Task>(`/tasks/${task.id}`, {
+      text: editText,
+    });
     setTasks((prev) =>
-      prev.map((t) => (t.id === task.id ? { ...t, text: editText } : t)),
+      prev.map((t) =>
+        t.id === task.id ? { ...t, text: response.data.text } : t,
+      ),
     );
     setIsEditing(false);
   }

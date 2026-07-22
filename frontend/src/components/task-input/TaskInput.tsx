@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import type { Task } from "../../types";
 
@@ -8,15 +9,10 @@ export function TaskInput({
 }) {
   const [taskText, setTaskText] = useState("");
 
-  function addTask(task: Task) {
-    setTasks((prevTasks) => [task, ...prevTasks]);
-  }
-
-  function handleTaskSubmition(task: Task) {
-    if (task.text.trim() != "") {
-      addTask(task);
-      setTaskText("");
-    }
+  async function addTask(taskText: string) {
+    const response = await axios.post<Task>("/tasks", { text: taskText });
+    setTasks((prevTasks) => [response.data, ...prevTasks]);
+    setTaskText("");
   }
 
   return (
@@ -31,18 +27,12 @@ export function TaskInput({
       ></textarea>
       <button
         className="btn btn-success w-100"
-        onClick={() => {
-          // call HTTP post method
-          handleTaskSubmition({
-            id: crypto.randomUUID(),
-            text: taskText,
-            done: false,
-          });
+        onClick={async () => {
+          addTask(taskText);
         }}
       >
         Add Task
       </button>
-      <label htmlFor="floatingTextarea2"></label>
     </>
   );
 }

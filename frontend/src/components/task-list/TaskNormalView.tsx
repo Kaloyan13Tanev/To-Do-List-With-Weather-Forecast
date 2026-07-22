@@ -1,3 +1,4 @@
+import axios from "axios";
 import type { Task } from "../../types";
 
 export function TaskNormalView({
@@ -11,38 +12,28 @@ export function TaskNormalView({
   setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  function changeTaskStatus() {
+  async function changeTaskStatus() {
+    const response = await axios.patch<Task>(`/tasks/${task.id}`, {
+      done: !task.done,
+    });
     const updatedTasks = tasks.map((t) =>
-      t.id === task.id ? { ...t, done: !t.done } : t,
+      t.id === task.id ? { ...t, done: response.data.done } : t,
     );
     setTasks(updatedTasks);
   }
 
-  function moveTaskUp(task: Task) {
-    const index = tasks.findIndex((t) => t.id === task.id);
-    if (index > 0) {
-      const newTasks = [...tasks];
-      [newTasks[index - 1], newTasks[index]] = [
-        newTasks[index],
-        newTasks[index - 1],
-      ];
-      setTasks(newTasks);
-    }
+  async function moveTaskUp(task: Task) {
+    const response = await axios.patch<Task[]>(`/tasks/${task.id}/move-up`);
+    setTasks(response.data);
   }
 
-  function moveTaskDown(task: Task) {
-    const index = tasks.findIndex((t) => t.id === task.id);
-    if (index < tasks.length - 1) {
-      const newTasks = [...tasks];
-      [newTasks[index], newTasks[index + 1]] = [
-        newTasks[index + 1],
-        newTasks[index],
-      ];
-      setTasks(newTasks);
-    }
+  async function moveTaskDown(task: Task) {
+    const response = await axios.patch<Task[]>(`/tasks/${task.id}/move-down`);
+    setTasks(response.data);
   }
 
-  function deleteTask(task: Task) {
+  async function deleteTask(task: Task) {
+    await axios.delete(`/tasks/${task.id}`);
     const updatedTasks = tasks.filter((t) => t.id !== task.id);
     setTasks(updatedTasks);
   }
