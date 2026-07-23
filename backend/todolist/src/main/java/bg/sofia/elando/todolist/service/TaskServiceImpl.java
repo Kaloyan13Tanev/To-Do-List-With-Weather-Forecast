@@ -3,13 +3,12 @@ package bg.sofia.elando.todolist.service;
 import bg.sofia.elando.todolist.dto.CreateTaskRequest;
 import bg.sofia.elando.todolist.dto.PatchTaskRequest;
 import bg.sofia.elando.todolist.entity.TaskEntity;
+import bg.sofia.elando.todolist.exception.TaskNotFoundException;
 import bg.sofia.elando.todolist.mapper.TaskMapper;
 import bg.sofia.elando.todolist.model.Task;
 import bg.sofia.elando.todolist.repository.TaskRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +33,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Task getTask(UUID id) {
         return taskMapper.toTask(
-            repo.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Task not found"))
+            repo.findById(id).orElseThrow(() -> new TaskNotFoundException(id))
         );
     }
 
@@ -45,6 +44,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @Transactional
     public Task patchTask(UUID id, PatchTaskRequest dto) {
         Task task = getTask(id);
         if (dto.done() != null) task.setDone(dto.done());
@@ -60,11 +60,8 @@ public class TaskServiceImpl implements TaskService {
         Task current = getTask(id);
 
         Optional<TaskEntity> above = repo.findTaskAbove(current.getPosition());
-        if (above.isEmpty()) {
-            return getTasks();
-        }
+        above.ifPresent(taskEntity -> swap(current, taskEntity));
 
-        swap(current, above.get());
         return getTasks();
     }
 
@@ -74,18 +71,15 @@ public class TaskServiceImpl implements TaskService {
         Task current = getTask(id);
 
         Optional<TaskEntity> below = repo.findTaskBelow(current.getPosition());
-        if (below.isEmpty()) {
-            return getTasks();
-        }
+        below.ifPresent(taskEntity -> swap(current, taskEntity));
 
-        swap(current, below.get());
         return getTasks();
     }
 
     @Override
     public void deleteTask(UUID id) {
         if (!repo.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task not found");
+            throw new TaskNotFoundException(id);
         }
 
         repo.deleteById(id);
