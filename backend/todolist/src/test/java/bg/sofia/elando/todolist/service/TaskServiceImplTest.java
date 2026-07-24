@@ -84,7 +84,6 @@ public class TaskServiceImplTest {
         List<Task> test = taskService.getTasks();
 
         assertEquals(tasks, test, "getTasks should return all tasks");
-        // TODO: ask whether task order should be checked
     }
 
     @Test
@@ -150,7 +149,7 @@ public class TaskServiceImplTest {
         assertEquals(entity1.getText(), test.getText(), "patchTask should leave text unchanged when null");
     }
 
-    // TODO: Test for the method being transactional?
+    // TODO: Test for the method being transactional
 
     @Test
     void testMoveTaskUpSwapsPositions() {
