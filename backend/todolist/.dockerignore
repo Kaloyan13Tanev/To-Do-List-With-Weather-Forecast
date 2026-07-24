@@ -1,0 +1,28 @@
+### Git ###
+.git
+.gitignore
+
+### Docker ###
+.dockerignore
+Dockerfile
+
+### Maven ###
+target
+*.class
+*.jar
+
+### Database ###
+data
+
+### Docs ###
+README.md
+HELP.md
+
+### IntelliJ IDEA ###
+.idea
+*.iml
+*.iws
+*.ipr
+
+### Misc ###
+*.log
