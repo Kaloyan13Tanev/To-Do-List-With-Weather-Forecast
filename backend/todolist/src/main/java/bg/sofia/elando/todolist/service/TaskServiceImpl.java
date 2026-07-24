@@ -60,7 +60,7 @@ public class TaskServiceImpl implements TaskService {
         Task current = getTask(id);
 
         Optional<TaskEntity> above = repo.findTaskAbove(current.getPosition());
-        above.ifPresent(taskEntity -> swap(current, taskEntity));
+        above.ifPresent(taskEntity -> swap(taskMapper.toEntity(current), taskEntity));
 
         return getTasks();
     }
@@ -71,7 +71,7 @@ public class TaskServiceImpl implements TaskService {
         Task current = getTask(id);
 
         Optional<TaskEntity> below = repo.findTaskBelow(current.getPosition());
-        below.ifPresent(taskEntity -> swap(current, taskEntity));
+        below.ifPresent(taskEntity -> swap(taskMapper.toEntity(current), taskEntity));
 
         return getTasks();
     }
@@ -85,14 +85,14 @@ public class TaskServiceImpl implements TaskService {
         repo.deleteById(id);
     }
 
-    private void swap(Task current, TaskEntity other) {
+    private void swap(TaskEntity current, TaskEntity other) {
         Long currentPosition = current.getPosition();
 
         current.setPosition(other.getPosition());
         other.setPosition(currentPosition);
 
         repo.save(other);
-        repo.save(taskMapper.toEntity(current));
+        repo.save(current);
     }
 
 }
