@@ -26,15 +26,15 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<Task> getTasks() {
-        return taskMapper.toTasks(repo.getTasks());
-    }
-
-    @Override
     public Task getTask(UUID id) {
         return taskMapper.toTask(
             repo.findById(id).orElseThrow(() -> new TaskNotFoundException(id))
         );
+    }
+
+    @Override
+    public List<Task> getTasks() {
+        return taskMapper.toTasks(repo.getTasks());
     }
 
     @Override
