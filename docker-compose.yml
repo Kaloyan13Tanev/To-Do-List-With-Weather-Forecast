@@ -1,0 +1,19 @@
+services:
+  backend:
+    build: ./backend/todolist
+    container_name: backend
+    ports:
+      - "8080:8080"
+    volumes:
+      - todolist-data:/app/data
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "3000:8080"
+    depends_on:
+      - backend
+
+volumes:
+  todolist-data:
