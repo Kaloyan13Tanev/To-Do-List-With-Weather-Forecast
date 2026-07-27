@@ -23,7 +23,7 @@ public class TaskEntity {
     private UUID id;
 
     @Generated(event = EventType.INSERT)
-    @ColumnDefault("next value for task_position_seq")
+    @ColumnDefault("nextval('task_position_seq')")
     @Column(nullable = false, insertable = false)
     private Long position;
 
