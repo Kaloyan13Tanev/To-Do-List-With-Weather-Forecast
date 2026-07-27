@@ -7,14 +7,14 @@ COPY --chmod=0755 mvnw mvnw
 COPY .mvn .mvn
 RUN --mount=type=bind,source=pom.xml,target=pom.xml \
     --mount=type=cache,target=/root/.m2 \
-    ./mvnw dependency:go-offline -DskipTests
+    ./mvnw dependency:go-offline
 
 COPY pom.xml .
 COPY src ./src
 RUN --mount=type=bind,source=pom.xml,target=pom.xml \
     --mount=type=cache,target=/root/.m2 \
     ./mvnw clean package -DskipTests && \
-    java -Djarmode=layertools -jar target/*.jar extract --destination target/extracted
+    java -Djarmode=tools -jar target/*.jar extract --layers --launcher --destination target/extracted
 
 FROM eclipse-temurin:25-jre
 ARG UID=10001
@@ -25,6 +25,8 @@ COPY --from=build --chown=appuser:appuser /usr/src/app/target/extracted/dependen
 COPY --from=build --chown=appuser:appuser /usr/src/app/target/extracted/spring-boot-loader/ ./
 COPY --from=build --chown=appuser:appuser /usr/src/app/target/extracted/snapshot-dependencies/ ./
 COPY --from=build --chown=appuser:appuser /usr/src/app/target/extracted/application/ ./
+
+RUN mkdir -p /app/data && chown appuser:appuser /app/data
 
 USER appuser
 EXPOSE 8080
