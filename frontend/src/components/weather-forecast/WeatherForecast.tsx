@@ -54,18 +54,26 @@ export function WeatherForecast() {
   }, []);
 
   if (!weather) {
-    return <div className="card p-3">Loading weather…</div>;
+    return (
+      <div data-testid="weather-loading" className="card p-3">
+        Loading weather…
+      </div>
+    );
   }
 
   return (
-    <div className="card">
+    <div data-testid="weather-forecast" className="card">
       <div className="card-body">
         <div className="text-center">
-          <h5 className="card-title">Sofia</h5>
+          <h5 data-testid="weather-city" className="card-title">
+            Sofia
+          </h5>
 
-          <div className="display-4">{Math.round(weather.temperature)}°</div>
+          <div data-testid="weather-temperature" className="display-4">
+            {Math.round(weather.temperature)}°
+          </div>
 
-          <div className="text-muted">
+          <div data-testid="weather-high-low" className="text-muted">
             H: {Math.round(weather.maxTemp)}° · L: {Math.round(weather.minTemp)}
             °
           </div>
@@ -75,11 +83,15 @@ export function WeatherForecast() {
 
         <div className="d-flex justify-content-between">
           <span>Humidity</span>
-          <span>{Math.round(weather.humidity)}%</span>
+          <span data-testid="weather-humidity">
+            {Math.round(weather.humidity)}%
+          </span>
         </div>
         <div className="d-flex justify-content-between">
           <span>Wind</span>
-          <span>{Math.round(weather.windSpeed)} km/h</span>
+          <span data-testid="weather-wind">
+            {Math.round(weather.windSpeed)} km/h
+          </span>
         </div>
       </div>
     </div>
