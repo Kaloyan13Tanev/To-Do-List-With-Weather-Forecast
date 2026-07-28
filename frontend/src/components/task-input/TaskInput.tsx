@@ -2,22 +2,19 @@ import axios from "axios";
 import { useState } from "react";
 import type { Task } from "../../types";
 
-export function TaskInput({
-  setTasks,
-}: {
-  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
-}) {
+export function TaskInput({ loadTasks }: { loadTasks: () => void }) {
   const [taskText, setTaskText] = useState("");
 
   async function addTask(taskText: string) {
-    const response = await axios.post<Task>("/tasks", { text: taskText });
-    setTasks((prevTasks) => [response.data, ...prevTasks]);
+    await axios.post<Task>("/tasks", { text: taskText });
+    await loadTasks();
     setTaskText("");
   }
 
   return (
     <>
       <textarea
+        data-testid="input-area"
         className="form-control"
         placeholder="Write your task here"
         id="floatingTextarea2"
@@ -26,6 +23,7 @@ export function TaskInput({
         onChange={(e) => setTaskText(e.target.value)}
       ></textarea>
       <button
+        data-testid="add-button"
         className="btn btn-success w-100"
         onClick={async () => {
           addTask(taskText);

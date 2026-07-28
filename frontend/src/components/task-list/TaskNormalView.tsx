@@ -3,50 +3,49 @@ import type { Task } from "../../types";
 
 export function TaskNormalView({
   task,
-  tasks,
-  setTasks,
+  loadTasks,
   setIsEditing,
 }: {
   task: Task;
-  tasks: Task[];
-  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
+  loadTasks: () => void;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   async function changeTaskStatus() {
-    const response = await axios.patch<Task>(`/tasks/${task.id}`, {
+    await axios.patch<Task>(`/tasks/${task.id}`, {
       done: !task.done,
     });
-    const updatedTasks = tasks.map((t) =>
-      t.id === task.id ? { ...t, done: response.data.done } : t,
-    );
-    setTasks(updatedTasks);
+    await loadTasks();
   }
 
   async function moveTaskUp(task: Task) {
-    const response = await axios.patch<Task[]>(`/tasks/${task.id}/move-up`);
-    setTasks(response.data);
+    await axios.patch<Task[]>(`/tasks/${task.id}/move-up`);
+    await loadTasks();
   }
 
   async function moveTaskDown(task: Task) {
-    const response = await axios.patch<Task[]>(`/tasks/${task.id}/move-down`);
-    setTasks(response.data);
+    await axios.patch<Task[]>(`/tasks/${task.id}/move-down`);
+    await loadTasks();
   }
 
   async function deleteTask(task: Task) {
     await axios.delete(`/tasks/${task.id}`);
-    const updatedTasks = tasks.filter((t) => t.id !== task.id);
-    setTasks(updatedTasks);
+    await loadTasks();
   }
 
   return (
-    <li className="list-group-item d-flex align-items-center justify-content-between gap-3">
+    <li
+      data-testid="task-normal-view"
+      className="list-group-item d-flex align-items-center justify-content-between gap-3"
+    >
       <div
+        data-testid="task-content"
         className={`task-content d-flex align-items-center gap-3 flex-grow-1 ${
           task.done ? "scratched" : ""
         }`}
         style={{ minWidth: 0 }}
       >
         <input
+          data-testid="done-checkbox"
           type="checkbox"
           checked={task.done}
           onChange={changeTaskStatus}
@@ -56,24 +55,28 @@ export function TaskNormalView({
 
       <div className="d-flex align-items-center gap-2 flex-shrink-0">
         <button
+          data-testid="move-up-button"
           className="btn btn-sm btn-outline-secondary"
           onClick={() => moveTaskUp(task)}
         >
           ↑
         </button>
         <button
+          data-testid="move-down-button"
           className="btn btn-sm btn-outline-secondary"
           onClick={() => moveTaskDown(task)}
         >
           ↓
         </button>
         <button
+          data-testid="edit-button"
           className="btn btn-sm btn-outline-primary"
           onClick={() => setIsEditing(true)}
         >
           Edit
         </button>
         <button
+          data-testid="delete-button"
           className="btn btn-sm btn-outline-danger"
           onClick={() => deleteTask(task)}
         >

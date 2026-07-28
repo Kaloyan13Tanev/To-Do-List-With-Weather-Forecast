@@ -3,21 +3,16 @@ import { TaskListElement } from "./TaskListElement";
 
 export function TaskList({
   tasks,
-  setTasks,
+  loadTasks,
 }: {
   tasks: Task[];
-  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
+  loadTasks: () => void;
 }) {
   return (
     <div className="task-list-container fill">
       <ul className="list-unstyled scroll-area">
         {tasks.map((task) => (
-          <TaskListElement
-            key={task.id}
-            task={task}
-            tasks={tasks}
-            setTasks={setTasks}
-          />
+          <TaskListElement key={task.id} task={task} loadTasks={loadTasks} />
         ))}
       </ul>
     </div>

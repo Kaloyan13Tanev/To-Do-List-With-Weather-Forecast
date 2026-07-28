@@ -25,10 +25,10 @@ function App() {
           <WeatherForecast />
         </div>
         <div className="col-md-6 fill">
-          <TaskList tasks={tasks} setTasks={setTasks} />
+          <TaskList tasks={tasks} loadTasks={loadTasks} />
         </div>
         <div className="col-md-3">
-          <TaskInput setTasks={setTasks} />
+          <TaskInput loadTasks={loadTasks} />
         </div>
       </div>
     </main>

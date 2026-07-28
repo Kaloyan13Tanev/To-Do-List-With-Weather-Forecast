@@ -5,12 +5,10 @@ import { TaskEditView } from "./TaskEditView";
 
 export function TaskListElement({
   task,
-  tasks,
-  setTasks,
+  loadTasks,
 }: {
   task: Task;
-  tasks: Task[];
-  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
+  loadTasks: () => void;
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(task.text);
@@ -18,14 +16,13 @@ export function TaskListElement({
   return !isEditing ? (
     <TaskNormalView
       task={task}
-      tasks={tasks}
-      setTasks={setTasks}
+      loadTasks={loadTasks}
       setIsEditing={setIsEditing}
     />
   ) : (
     <TaskEditView
       task={task}
-      setTasks={setTasks}
+      loadTasks={loadTasks}
       editText={editText}
       setEditText={setEditText}
       setIsEditing={setIsEditing}
