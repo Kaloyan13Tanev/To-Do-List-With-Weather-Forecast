@@ -23,7 +23,7 @@ The three panels are laid out with Bootstrap's grid — weather, task list, task
 
 **Infrastructure** — Docker, Docker Compose, nginx
 
-**Testing** — JUnit 5, Mockito, Spring Boot Test
+**Testing** — JUnit 5, Mockito, Spring Boot Test, Vitest, React Testing Library
 
 ## Project structure
 
@@ -34,7 +34,7 @@ ToDoListWithWeatherForecast/
 │   ├── Dockerfile            Builds the app, serves it with nginx
 │   ├── nginx.conf
 │   └── src/
-│       ├── components/
+│       ├── components/       each folder holds a component and its tests
 │       │   ├── task-input/
 │       │   ├── task-list/
 │       │   └── weather-forecast/
@@ -85,6 +85,8 @@ Docker Compose activates the prod profile by setting `SPRING_PROFILES_ACTIVE`, s
 
 ## Testing
 
+### Backend
+
 ```bash
 cd backend/todolist
 ./mvnw test
@@ -95,6 +97,17 @@ Three layers, each isolated from the ones below it:
 - **Controller** — `@WebMvcTest` with a mocked service, asserting status codes, JSON shape, and that the ordering returned by the service reaches the client intact
 - **Service** — plain JUnit with Mockito, covering the reorder logic, partial updates, and the not-found paths
 - **Repository** — `@DataJpaTest` against a real in-memory database, verifying the hand-written JPQL for ordering and adjacent-row lookups
+
+### Frontend
+
+```bash
+cd frontend
+npm test
+```
+
+Component tests run under Vitest with React Testing Library, in a jsdom environment. Tests are colocated with the components they cover.
+
+Queries go through accessible roles and text wherever possible, so the tests describe what a user can see and reach rather than how the markup is structured; `data-testid` is reserved for elements with no meaningful role of their own. `axios` is mocked at the module level, which lets a test assert both the request a component sends and how the interface responds to what comes back.
 
 ## Weather
 
